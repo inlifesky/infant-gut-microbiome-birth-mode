@@ -1,0 +1,15 @@
+DATASET PROVENANCE — infant microbiome birth-mode demo
+source: curatedMetagenomicData, resource 2021-03-31.ShaoY_2019.relative_abundance
+cohort: Shao et al. 2019, Baby Biome Study (infant gut shotgun metagenome)
+outcome: born_method (vaginal vs c_section) — early-life determinant
+cMD package version: 3.20.0 
+
+samples (after filter): 578 
+
+  vaginal c_section 
+      306       272 
+unique subjects: 578 
+features kept (prevalence>=10% & maxRA>=1e-4): 42 
+
+Note: secondary analysis of public uniformly-processed MetaPhlAn profiles;
+no raw-read processing performed.

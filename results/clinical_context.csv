@@ -1,0 +1,28 @@
+"taxon","short","direction","n_methods","rf_rank","rf_importance","probiotic_match","clinical_link"
+"escherichia_coli","escherichia coli","Vaginal enriched",4,1,16.3902280212708,NA,NA
+"bifidobacterium_longum","bifidobacterium longum","Vaginal enriched",4,2,15.568443894108,"probiotic target (Liu 2023, Chen 2025)","depleted in CS → allergy/atopy risk (Shaterian 2024)"
+"phocaeicola_vulgatus","phocaeicola vulgatus","Vaginal enriched",4,3,14.6050758207621,NA,NA
+"parabacteroides_distasonis","parabacteroides distasonis","Vaginal enriched",4,8,7.21747447387181,NA,NA
+"bacteroides_uniformis","bacteroides uniformis","Vaginal enriched",4,9,7.19046422077593,NA,"depleted in CS → immune maturation delay (Tamburini 2016)"
+"enterococcus_faecalis","enterococcus faecalis","C-section enriched",4,10,6.89136848180994,"opportunist (Liu 2023 — hospital-associated)","enriched in CS → hospital-acquired, ABR (Shao 2019)"
+"veillonella_dispar","veillonella dispar","C-section enriched",4,11,6.80082808454407,NA,"enriched in CS → oral/skin origin"
+"clostridium_perfringens","clostridium perfringens","C-section enriched",4,12,5.18589311943381,NA,"enriched in CS → NEC risk (Shao 2019)"
+"streptococcus_parasanguinis","streptococcus parasanguinis","C-section enriched",4,17,4.55658786976373,NA,NA
+"bifidobacterium_adolescentis","bifidobacterium adolescentis","Vaginal enriched",4,18,4.54543539920174,NA,"depleted in CS → allergy/atopy risk (Shaterian 2024)"
+"enterobacter","enterobacter","C-section enriched",4,19,3.97974937231822,NA,NA
+"phocaeicola_dorei","phocaeicola dorei","Vaginal enriched",4,20,3.32454820478488,NA,NA
+"haemophilus_haemolyticus","haemophilus haemolyticus","C-section enriched",4,22,3.09599099134421,NA,"enriched in CS → upper respiratory origin"
+"klebsiella_oxytoca","klebsiella oxytoca","C-section enriched",4,25,2.59551771056269,NA,NA
+"klebsiella_michiganensis","klebsiella michiganensis","C-section enriched",4,26,2.50020403255366,NA,NA
+"veillonella_parvula","veillonella parvula","C-section enriched",3,4,12.2181157327848,NA,"enriched in CS → oral/skin origin"
+"veillonella_infantium","veillonella infantium","C-section enriched",3,5,8.91568159701622,NA,"enriched in CS → oral/skin origin"
+"haemophilus_parainfluenzae","haemophilus parainfluenzae","C-section enriched",3,6,8.75951885513935,NA,"enriched in CS → upper respiratory origin"
+"rothia_mucilaginosa","rothia mucilaginosa","C-section enriched",3,7,8.74663525175413,NA,NA
+"staphylococcus_hominis","staphylococcus hominis","Vaginal enriched",3,13,5.06743488736404,NA,NA
+"bifidobacterium_breve","bifidobacterium breve","Vaginal enriched",3,14,5.01981519310881,"probiotic target (Chen 2025 — B. breve M-16V)","depleted in CS → allergy/atopy risk (Shaterian 2024)"
+"streptococcus_mitis","streptococcus mitis","C-section enriched",3,15,4.77206880977706,NA,NA
+"staphylococcus_epidermidis","staphylococcus epidermidis","C-section enriched",3,16,4.67516732943573,NA,NA
+"staphylococcus_haemolyticus","staphylococcus haemolyticus","C-section enriched",3,21,3.20461257275796,NA,NA
+"gemella_sanguinis","gemella sanguinis","C-section enriched",3,23,2.76754317798489,NA,NA
+"streptococcus_thermophilus","streptococcus thermophilus","C-section enriched",3,24,2.69705261442507,NA,NA
+"collinsella_aerofaciens","collinsella aerofaciens","Vaginal enriched",3,27,2.4440234155261,NA,NA

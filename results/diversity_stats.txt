@@ -1,0 +1,31 @@
+ALPHA (Shannon) by birth mode
+$vaginal
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0000  0.6838  1.0476  1.0117  1.3344  2.1662 
+
+$c_section
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0000  0.5359  0.8701  0.8807  1.2146  1.9510 
+
+
+Wilcoxon:
+
+	Wilcoxon rank sum test with continuity correction
+
+data:  shannon by born_method
+W = 48096, p-value = 0.001225
+alternative hypothesis: true location shift is not equal to 0
+
+
+BETA — PERMANOVA (Bray-Curtis, subject-stratified):
+Permutation test for adonis under reduced model
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = bc ~ born_method, data = meta, permutations = 999)
+          Df SumOfSqs    R2      F Pr(>F)    
+Model      1   13.311 0.057 34.818  0.001 ***
+Residual 576  220.212 0.943                  
+Total    577  233.523 1.000                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1

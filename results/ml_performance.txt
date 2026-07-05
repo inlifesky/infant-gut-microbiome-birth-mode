@@ -1,0 +1,24 @@
+Random forest — predict birth mode from CLR species profile
+Validation: subject-grouped 5-fold CV (leakage-safe)
+
+per-fold AUC: 0.837, 0.876, 0.867, 0.827, 0.860 
+mean fold AUC: 0.853 (SD 0.020)
+pooled out-of-fold AUC: 0.854
+
+Top 15 taxa by Gini importance:
+                              taxon      gini
+           species:Escherichia coli 20.465615
+     species:Bifidobacterium longum 19.750121
+       species:Phocaeicola vulgatus 19.123963
+        species:Veillonella parvula 15.612217
+      species:Veillonella infantium 10.782934
+        species:Rothia mucilaginosa 10.534092
+ species:Haemophilus parainfluenzae 10.502862
+      species:Bacteroides uniformis  9.591865
+ species:Parabacteroides distasonis  8.848071
+    species:Bifidobacterium bifidum  8.252584
+      species:Enterococcus faecalis  8.230291
+         species:Veillonella dispar  8.077874
+    species:Clostridium perfringens  6.410661
+     species:Staphylococcus hominis  6.219453
+      species:Bifidobacterium breve  6.213049

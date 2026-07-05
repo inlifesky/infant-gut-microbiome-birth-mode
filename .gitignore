@@ -1,0 +1,34 @@
+# Internal working files not for public release
+_internal_archive/
+src/_scratch/
+
+# R session files
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# Large intermediate objects (regenerable from scripts)
+results/*.rds
+results/pathway_maaslin2_adjusted/features/
+results/pathway_maaslin2_adjusted/fits/
+results/pathway_maaslin2_birthmode/features/
+results/pathway_maaslin2_birthmode/fits/
+results/maaslin2_adjusted/features/
+results/maaslin2_adjusted/fits/
+results/maaslin2_birthmode/features/
+results/maaslin2_birthmode/fits/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/
+
+# Node / build tools (not used but preemptive)
+node_modules/
+
+# Local http.server logs
+*.log

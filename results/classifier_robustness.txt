@@ -1,0 +1,32 @@
+=== Classifier robustness evaluation ===
+
+Model: Random Forest (800 trees), subject-grouped 5-fold CV
+Features: CLR-transformed species profiles
+
+Pooled out-of-fold AUC: 0.854
+Per-fold AUC: 0.837, 0.880, 0.864, 0.828, 0.854
+
+--- Permutation test (200 runs) ---
+Permutation AUC: mean = 0.493, SD = 0.034, range = [0.408, 0.575]
+Empirical p-value: 0.0000
+
+--- Calibration ---
+Brier score: 0.1529 (0 = perfect)
+
+--- Optimal operating point (Youden) ---
+Threshold: 0.439
+Sensitivity: 0.886  Specificity: 0.725
+Precision: 0.742  F1: 0.807
+
+--- Top 10 most stable features (by mean Gini) ---
+                              taxon  mean_imp    sd_imp     cv_imp
+           species:Escherichia coli 16.390228 2.6349645 0.16076436
+     species:Bifidobacterium longum 15.568444 1.6492724 0.10593688
+       species:Phocaeicola vulgatus 14.605076 0.7048022 0.04825735
+        species:Veillonella parvula 12.218116 2.2089375 0.18079200
+      species:Veillonella infantium  8.915682 0.8228131 0.09228830
+ species:Haemophilus parainfluenzae  8.759519 1.4437897 0.16482523
+        species:Rothia mucilaginosa  8.746635 2.3140724 0.26456716
+ species:Parabacteroides distasonis  7.217474 1.4504205 0.20095956
+      species:Bacteroides uniformis  7.190464 1.0741863 0.14939039
+      species:Enterococcus faecalis  6.891368 0.4924745 0.07146251

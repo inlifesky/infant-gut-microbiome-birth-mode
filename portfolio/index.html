@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Early-life microbiome re-analysis — Wei (Rita) Yuan · Portfolio</title>
+<meta name="description" content="A portfolio re-analysis of the Baby Biome Study demonstrating shotgun-metagenomic analysis, multi-method robustness testing, longitudinal stratification and reproducible R workflow — relevant to early-life and maternal microbiome research roles.">
+<style>
+  :root {
+    --bg: #FBF8F3;
+    --bg-alt: #F4EEE2;
+    --border: #E5DFD3;
+    --ink: #2A2521;
+    --ink-2: #5A5450;
+    --muted: #8A857E;
+    --sage: #5A7A54;
+    --sage-dark: #3F5A3B;
+    --terracotta: #9E6547;
+    --link: #3F5A3B;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 17px/1.7 Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: var(--link); border-bottom: 1px solid rgba(63,90,59,0.3); text-decoration: none; }
+  a:hover { border-bottom-color: var(--link); }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 24px 64px; }
+
+  h1, h2, h3 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+  }
+  h1 { font-size: 32px; margin: 0 0 12px; }
+  h2 {
+    font-size: 22px; margin: 44px 0 14px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+  }
+  h2:first-of-type { border-top: none; padding-top: 0; }
+  h3 { font-size: 17px; margin: 24px 0 10px; }
+  p { margin: 0 0 14px; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+    margin-bottom: 18px;
+    font-family: system-ui, sans-serif;
+  }
+  .subtitle {
+    font-size: 17px; color: var(--ink-2); margin: 0 0 20px;
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-style: italic; line-height: 1.5;
+  }
+  .meta { color: var(--muted); font-size: 14px; letter-spacing: 0.01em; }
+  .meta strong { color: var(--ink-2); font-weight: 600; }
+
+  /* Project snapshot card */
+  .snapshot {
+    margin: 32px 0 8px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 22px;
+  }
+  .snapshot dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 0;
+  }
+  .snapshot dt {
+    padding: 12px 0;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sage-dark);
+    font-weight: 600;
+    font-family: system-ui, sans-serif;
+    border-bottom: 1px dashed var(--border);
+    align-self: start;
+  }
+  .snapshot dd {
+    margin: 0; padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 15px; line-height: 1.55;
+  }
+  .snapshot dl > dt:last-of-type,
+  .snapshot dl > dd:last-of-type { border-bottom: none; }
+
+  /* Figure */
+  figure { margin: 20px 0 28px; padding: 0; }
+  figure img {
+    width: 100%; height: auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+  }
+  figcaption {
+    font-size: 14px; color: var(--ink-2);
+    margin-top: 10px; line-height: 1.55;
+    font-style: italic;
+  }
+  figcaption strong {
+    font-style: normal; color: var(--ink);
+    font-family: system-ui, sans-serif; font-weight: 600;
+  }
+
+  /* Callout card */
+  .headline {
+    background: white;
+    border-left: 3px solid var(--sage);
+    padding: 18px 22px;
+    margin: 20px 0 24px;
+    border-radius: 0 6px 6px 0;
+  }
+  .headline strong { color: var(--sage-dark); }
+
+  /* Bulleted capability list */
+  .caps {
+    list-style: none; padding: 0; margin: 12px 0 4px;
+  }
+  .caps li {
+    padding: 10px 0 10px 28px;
+    position: relative;
+    border-bottom: 1px dashed var(--border);
+    font-size: 15.5px; line-height: 1.55;
+  }
+  .caps li:last-child { border-bottom: none; }
+  .caps li::before {
+    content: "→"; position: absolute; left: 4px; top: 10px;
+    color: var(--sage); font-weight: 600;
+    font-family: system-ui, sans-serif;
+  }
+  .caps li strong {
+    display: block; color: var(--ink); font-size: 14px;
+    font-family: system-ui, sans-serif; font-weight: 600;
+    margin-bottom: 2px;
+    letter-spacing: 0.01em;
+  }
+
+  /* Table for reproducibility */
+  .repro-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 16px;
+    font-size: 15px;
+  }
+  .repro-table td {
+    padding: 10px 12px 10px 0;
+    vertical-align: top;
+    border-bottom: 1px dashed var(--border);
+  }
+  .repro-table td:first-child {
+    width: 130px; color: var(--ink-2);
+    font-family: system-ui, sans-serif;
+    font-size: 13px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding-right: 16px;
+  }
+  code {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    background: var(--bg-alt);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.88em;
+  }
+
+  /* Deep-dive card */
+  .deep-dive {
+    background: var(--bg-alt);
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin: 24px 0 20px;
+    border: 1px solid var(--border);
+  }
+  .deep-dive strong { color: var(--ink); font-family: system-ui, sans-serif; font-weight: 600; }
+
+  /* Disclaimer */
+  .disclaimer {
+    font-size: 13.5px;
+    color: var(--muted);
+    padding: 14px 18px;
+    border-left: 2px solid var(--muted);
+    background: var(--bg-alt);
+    margin: 28px 0 20px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  footer {
+    margin-top: 40px; padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 14px; line-height: 1.55;
+  }
+  footer .contact { margin-bottom: 8px; }
+  footer strong { color: var(--ink-2); font-weight: 600; }
+
+  @media (max-width: 640px) {
+    main { padding: 32px 20px 48px; }
+    h1 { font-size: 26px; }
+    h2 { font-size: 20px; margin-top: 36px; }
+    .snapshot dl { grid-template-columns: 1fr; }
+    .snapshot dt { padding-bottom: 2px; border-bottom: none; }
+    .snapshot dd { padding-top: 4px; padding-bottom: 14px; }
+    .repro-table td:first-child { width: auto; display: block; padding-bottom: 4px; }
+    .repro-table td { display: block; padding-right: 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <span class="eyebrow">Portfolio · Bioinformatics case study</span>
+  <h1>Re-analysing early-life microbiome signals after caesarean birth: robustness, persistence and intervention relevance</h1>
+  <p class="subtitle">A portfolio re-analysis of the Baby Biome Study (Shao et al., <em>Nature</em> 2019)</p>
+  <p class="meta"><strong>Wei (Rita) Yuan</strong> · Independent research portfolio · 2026</p>
+
+  <div class="snapshot">
+    <dl>
+      <dt>Dataset</dt>
+      <dd>Baby Biome Study (Shao 2019, <em>Nature</em>) — 1,470 shotgun metagenomes from 579 UK newborns, longitudinal day 4 to day 428; matched maternal samples available in <code>family_role</code>.</dd>
+      <dt>Domain</dt>
+      <dd>Early-life gut microbiome; caesarean birth; peripartum antibiotic exposure; longitudinal infant sampling.</dd>
+      <dt>Methods</dt>
+      <dd>MetaPhlAn3 / HUMAnN3 profiles; four differential-abundance methods (CLR + Wilcoxon, ALDEx2, ANCOM-BC2, MaAsLin2); random-forest triangulation; longitudinal and 2×2 stratified analysis in R.</dd>
+      <dt>Skills shown</dt>
+      <dd>Reproducible R workflow · metagenomics feature extraction · multi-method robustness · confounder-aware longitudinal analysis · species-to-pathway integration · literature synthesis.</dd>
+      <dt>Output</dt>
+      <dd>A four-filter pipeline that contracts 33 single-method species to 5 method-robust, persistent, CS-driven, vaginal-enriched species — four <em>Bacteroidota</em> and one <em>Actinomycetota</em> — with matching persistent deficits at the functional (pathway) level.</dd>
+    </dl>
+  </div>
+</header>
+
+<section>
+  <h2>The question</h2>
+  <p>
+    Caesarean-birth infants are the target of a broad intervention landscape —
+    mainstream <em>Bifidobacterium</em> probiotics, vaginal seeding, maternal
+    faecal microbiota transplantation, synbiotic infant formulas, next-generation
+    <em>Bacteroides</em> probiotics. Each rests on published CS-versus-vaginal
+    microbiome differences drawn from cohorts using different methods, time
+    windows, and confounder controls. This project asks a research-analyst
+    question about that evidence base:
+  </p>
+  <div class="headline">
+    <strong>Which reported CS-associated microbiome signals remain robust after
+    four independent DA methods agree, persist to three months, and separate
+    from peripartum antibiotic exposure?</strong>
+  </div>
+</section>
+
+<section>
+  <h2>What I did</h2>
+  <p>
+    Four filters applied in sequence to the same profile, then repeated at
+    the functional (pathway) level:
+  </p>
+  <ul class="caps">
+    <li>
+      <strong>Filter 1 — Method-robust consensus</strong>
+      Four DA methods (CLR+Wilcoxon, ALDEx2, ANCOM-BC2, MaAsLin2) run in
+      parallel on the same MetaPhlAn3 profile; retain species significant
+      (FDR &lt; 0.05) in ≥3 of 4. <em>33 → 27 species.</em>
+    </li>
+    <li>
+      <strong>Filter 2 — Longitudinal persistence</strong>
+      Track CS-versus-vaginal CLR gap across three age windows (d0–7, d8–30,
+      d91+); retain species whose gap persists or widens at three months.
+      <em>27 → 8 species.</em>
+    </li>
+    <li>
+      <strong>Filter 3 — Antibiotic vs CS deconvolution</strong>
+      2×2 stratification (birth mode × peripartum antibiotic exposure) at
+      d0–7; retain species where CS effect is comparable to or larger than
+      antibiotic effect. <em>8 → 6 species.</em>
+    </li>
+    <li>
+      <strong>Filter 4 — Direction filter</strong>
+      Keep vaginal-enriched species (candidates for restore-type intervention);
+      CS-enriched opportunists are handled as a separate question.
+      <em>6 → 5 species.</em>
+    </li>
+  </ul>
+  <p>
+    The same workflow, applied to 386 MetaCyc pathway abundances (HUMAnN3),
+    contracts 223 method-robust pathways to 7 with substantial persistent
+    magnitude at three months.
+  </p>
+</section>
+
+<section>
+  <h2>Key finding</h2>
+  <div class="headline">
+    <strong>The residual signal is Bacteroidota-centred.</strong>
+    Five species survive every filter: four <em>Bacteroidota</em>
+    (<em>B. uniformis, P. vulgatus, P. dorei, P. distasonis</em>) and one
+    <em>Actinomycetota</em> (<em>C. aerofaciens</em>). Their persistent
+    deficits align with matched persistent reductions in four functional
+    pathways at three months — GABA shunt, β-mannan degradation, glycogen
+    degradation, and urea-cycle-related capacity. Each of these functional
+    activities is documented in the <em>Bacteroidota</em> literature, so
+    the persistent species deficits are consistent with the persistent
+    functional deficits, with <em>Bacteroidota</em> carrying the dominant
+    share of both.
+  </div>
+  <figure>
+    <img src="figures/longitudinal_trajectories.png" alt="Longitudinal CLR-gap trajectories for the 27 method-robust species across d0-7, d8-30 and d91+ age windows">
+    <figcaption><strong>Longitudinal trajectories, 27 method-robust species.</strong> Most opportunist enrichments (red) and Bifidobacterium deficits (blue near zero at right) attenuate or close by three months. The five lines that stay negative at right (four Bacteroidota + <em>C. aerofaciens</em>) mark the persistent deficit.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>What this demonstrates</h2>
+  <ul class="caps">
+    <li>
+      <strong>Metagenomics analysis on public shotgun data</strong>
+      End-to-end use of MetaPhlAn3 species profiles and HUMAnN3 MetaCyc
+      pathway profiles via <code>curatedMetagenomicData</code>, in a research
+      setting where the input is already-processed community abundance rather
+      than raw reads.
+    </li>
+    <li>
+      <strong>Reproducible R workflow</strong>
+      A documented pipeline of ordered R scripts producing versioned result
+      tables, figures and a session-info snapshot. Structured so a colleague
+      can rerun any filter stage independently.
+    </li>
+    <li>
+      <strong>Multi-method robustness testing</strong>
+      Applying four DA methods with mechanistically distinct assumptions
+      (compositional-baseline, Monte Carlo, bias-corrected log-linear, GLM
+      with covariates) to the same profile, then acting on their concordance
+      rather than any single output.
+    </li>
+    <li>
+      <strong>Machine-learning triangulation, not replacement</strong>
+      Random forest was used as a data-driven feature-importance ranking to
+      check that species retained by DA concordance also carry predictive
+      signal — that is, agreement between a distribution-free ML importance
+      score and the parametric DA methods is treated as convergent evidence.
+      The classifier is not used as a diagnostic (birth mode is known from
+      the medical record).
+    </li>
+    <li>
+      <strong>Confounder-aware longitudinal interpretation</strong>
+      Identifying that vaginal-born infants in this cohort received higher
+      intrapartum antibiotic prophylaxis (27%) than CS-born (12%), and
+      designing the antibiotic deconvolution to prevent that asymmetry from
+      being read as a CS effect.
+    </li>
+    <li>
+      <strong>Species-to-function integration</strong>
+      Cross-referencing species-level and pathway-level filter outputs to
+      test whether the persistent species deficits correspond to persistent
+      metabolic capacity deficits, and grounding the correspondence in
+      published mechanism (Strandwitz 2019, Hettle 2022, You et al. 2023).
+    </li>
+    <li>
+      <strong>Honest scope and limitation reporting</strong>
+      Explicit documentation of what the cohort cannot answer — outcomes
+      past d91+, feeding-mode interactions, mother–infant strain transmission
+      — with each mapped to a specific extension in future work.
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Relevance to early-life and maternal microbiome research</h2>
+  <p>
+    Several elements of this workflow map directly onto the practical needs
+    of an early-life or maternal microbiome research programme:
+  </p>
+  <ul class="caps">
+    <li>
+      <strong>Direct methods match.</strong>
+      Shotgun metagenomics, R-based reproducible workflow and multi-method
+      differential-abundance analysis are the working stack for infant and
+      maternal microbiome studies.
+    </li>
+    <li>
+      <strong>Confounder handling matches the field's real problems.</strong>
+      Peripartum antibiotic prophylaxis is a persistent confounder in every
+      CS microbiome study; the 2×2 stratification implemented here transfers
+      to intervention trials, feeding studies, and outcome-linked cohorts.
+    </li>
+    <li>
+      <strong>Extendable to mother–infant transmission.</strong>
+      BBS metadata already includes matched maternal samples
+      (<code>family_role</code>). The same workflow, extended with strain-level
+      analysis (StrainPhlAn, inStrain), would test whether persistent infant
+      deficits reflect failed vertical transmission or failed establishment
+      after transmission — the exact question that motivates maternal-microbiome
+      research programmes.
+    </li>
+    <li>
+      <strong>Structured for outcome linkage.</strong>
+      The filtered target sets are small enough to feed directly into
+      outcome-linked cohorts such as those tracking allergy, asthma, growth
+      or neurodevelopment. The pipeline can accept an outcome-carrying cohort
+      as input without re-scaffolding.
+    </li>
+    <li>
+      <strong>Auditable data-management practices.</strong>
+      Ordered scripts, versioned intermediate tables, explicit session-info,
+      figure caption traceability — the kind of documentation that lets a
+      supervisor pick up an analysis six months later or hand it to a PhD
+      student for extension.
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Reproducibility</h2>
+  <table class="repro-table">
+    <tr>
+      <td>Data source</td>
+      <td>Shao et al. 2019, <em>Nature</em> — accessed via the Bioconductor package <code>curatedMetagenomicData</code> (Pasolli et al. 2017, <em>Nat Methods</em>). No raw-read processing required; MetaPhlAn3 species and HUMAnN3 MetaCyc pathway abundances are downloaded already normalised.</td>
+    </tr>
+    <tr>
+      <td>Environment</td>
+      <td>R 4.6 with Bioconductor 3.21. Package versions pinned via <code>sessionInfo()</code>.</td>
+    </tr>
+    <tr>
+      <td>Key packages</td>
+      <td><code>curatedMetagenomicData</code>, <code>SummarizedExperiment</code>, <code>ALDEx2</code>, <code>ANCOMBC</code>, <code>Maaslin2</code>, <code>vegan</code>, <code>randomForest</code>, <code>ggplot2</code>, <code>patchwork</code>.</td>
+    </tr>
+    <tr>
+      <td>Runtime</td>
+      <td>~45 minutes end-to-end on a laptop (initial <code>curatedMetagenomicData</code> download is the slow step; subsequent runs are cached).</td>
+    </tr>
+    <tr>
+      <td>Repository</td>
+      <td>Code, result tables and figures are available on request while the reproducibility package is being finalised for public release.</td>
+    </tr>
+    <tr>
+      <td>Development workflow</td>
+      <td>This portfolio was author-directed and AI-assisted. Claude (Anthropic) was used for code drafting, HTML/CSS drafting, exploratory literature lookup and prose editing. The research question, analysis design, filter decisions, result verification and scientific interpretation were performed by the author. Statistical outputs were checked against source data files, and literature claims were checked against primary references before inclusion.</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Scope and limitations</h2>
+  <ul class="caps">
+    <li>
+      <strong>Not a clinical study.</strong>
+      Secondary re-analysis of a public cohort with no outcome data (no NEC,
+      allergy, growth, or neurodevelopmental endpoints). Intervention-relevance
+      claims are hypotheses, not causal evidence.
+    </li>
+    <li>
+      <strong>Data thin past three months.</strong>
+      Beyond d91+ the sample density falls off sharply, so trajectories at
+      6–12 months cannot be resolved in this cohort.
+    </li>
+    <li>
+      <strong>No feeding-mode covariate.</strong>
+      <code>feeding_practice</code> is 0% non-NA in BBS. Feeding-mode by
+      birth-mode interactions cannot be tested here.
+    </li>
+    <li>
+      <strong>Maternal analysis is a planned extension, not a completed one.</strong>
+      Matched maternal samples exist in the metadata but strain-level
+      transmission analysis was out of scope for this pass.
+    </li>
+  </ul>
+</section>
+
+<div class="deep-dive">
+  <p style="margin: 0;">
+    <strong>Full scientific report →</strong>
+    A more detailed write-up including the four-method DA comparison table,
+    cohort caveats section, all four figures with expanded captions, and a
+    full glossary and references list is available at the
+    <a href="../web/">full report page</a>.
+  </p>
+</div>
+
+<div class="disclaimer">
+  <strong>Disclaimer.</strong> This is a portfolio secondary analysis of
+  publicly available metagenomic data. It is intended to demonstrate
+  research-data and metagenomics capability, not to provide clinical guidance
+  or recommend any infant intervention. All named products, strains and
+  trials are cited from the peer-reviewed literature for methodological
+  discussion only.
+</div>
+
+<div class="disclaimer" style="border-left-color: var(--sage); background: #F0EEE4;">
+  <strong>Acknowledgments.</strong> The author gratefully acknowledges the
+  mothers and infants who consented to the Baby Biome Study, the Shao et al.
+  team at the Wellcome Sanger Institute and the Wellcome–MRC Institute of
+  Metabolic Science who released the cohort, the <code>curatedMetagenomicData</code>
+  maintainers who provide standardised profiles, and the methodology teams
+  behind MetaPhlAn3 / HUMAnN3, ALDEx2, ANCOM-BC2 and MaAsLin2. No
+  re-identifiable participant data are included.
+</div>
+
+<footer>
+  <div class="contact">
+    <strong>Wei (Rita) Yuan</strong> · Portfolio project · 2026
+  </div>
+  <div>
+    Prepared as a portfolio piece for early-life and maternal microbiome
+    research positions. Written and analysed in R 4.6 with Bioconductor 3.21;
+    code and result tables available on request.
+  </div>
+</footer>
+
+</main>
+</body>
+</html>

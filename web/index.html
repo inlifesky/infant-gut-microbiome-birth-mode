@@ -1,0 +1,1148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robustness, persistence and intervention relevance of caesarean-birth microbiome signals — Wei (Rita) Yuan</title>
+<meta name="description" content="A stratified re-analysis of the Baby Biome Study (Shao et al. 2019, Nature) examining which caesarean-birth-associated microbiome signals remain after method concordance, longitudinal persistence and antibiotic-stratification filters.">
+<!-- System font stack — no external font loading; guaranteed on Windows/Mac/Linux -->
+<style>
+  :root {
+    --bg: #FBF8F3;
+    --bg-alt: #F4EEE2;
+    --border: #E5DFD3;
+    --ink: #2A2521;
+    --ink-2: #5A5450;
+    --muted: #8A857E;
+    --sage: #5A7A54;
+    --sage-dark: #3F5A3B;
+    --terracotta: #9E6547;
+    --link: #3F5A3B;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 400 17px/1.7 Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Cambria, Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: var(--link); text-decoration: none; border-bottom: 1px solid rgba(63,90,59,0.3); }
+  a:hover { border-bottom-color: var(--link); }
+  .layout { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  main { max-width: 780px; margin: 0 auto; padding: 0; }
+  @media (min-width: 1024px) {
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    aside.sidebar {
+      position: sticky;
+      top: 32px;
+      align-self: start;
+      padding: 40px 0 0;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+    }
+    main { max-width: 780px; }
+    .toc.mobile-only { display: none; }
+  }
+  aside.sidebar { display: none; }
+  @media (min-width: 1024px) { aside.sidebar { display: block; } }
+
+  aside.sidebar .brand {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 14px; color: var(--ink);
+    margin-bottom: 20px; line-height: 1.4;
+    font-weight: 600;
+    padding-right: 8px;
+  }
+  aside.sidebar .brand small {
+    display: block; font-family: Charter, Georgia, serif;
+    font-weight: 400; font-size: 12px;
+    color: var(--muted); margin-top: 4px;
+    font-style: italic;
+  }
+  aside.sidebar .nav-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 8px 0 6px;
+    font-weight: 600;
+    font-family: system-ui, sans-serif;
+  }
+  aside.sidebar a.nav-link {
+    display: block;
+    padding: 6px 12px 6px 14px;
+    border: none;
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.35;
+    border-left: 2px solid transparent;
+    margin-left: -2px;
+    font-family: Charter, Georgia, serif;
+  }
+  aside.sidebar a.nav-link:hover {
+    color: var(--sage-dark);
+    border-left-color: var(--sage);
+    background: rgba(90,122,84,0.06);
+  }
+
+  /* Pipeline diagram */
+  .pipeline {
+    margin: 20px 0 28px;
+    padding: 24px 20px;
+    background: var(--bg-alt);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .pipe-stage-label {
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    font-family: system-ui, sans-serif;
+    margin: 14px 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .pipe-stage-label:first-child { margin-top: 0; }
+  .pipe-converge {
+    display: flex;
+    justify-content: space-around;
+    color: var(--muted);
+    font-size: 14px;
+    padding: 0 8%;
+    line-height: 1;
+  }
+  .pipe-converge span { display: block; text-align: center; width: 20px; }
+  .pipe-merge-label {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    font-family: Charter, Georgia, serif;
+    padding: 2px 0 4px;
+  }
+  .pipe-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+    font-family: system-ui, sans-serif;
+  }
+  .pipe-box strong { font-weight: 600; color: var(--ink); display: block; font-size: 13px; }
+  .pipe-box small {
+    color: var(--muted); font-size: 11px; display: block; margin-top: 3px;
+    font-family: Charter, Georgia, serif; font-style: italic;
+  }
+  .pipe-box .cite { color: var(--sage-dark); font-size: 10.5px; display: block; margin-top: 5px; letter-spacing: 0.02em; }
+  .pipe-box .cite a { color: var(--sage-dark); border-bottom: 1px dotted rgba(63,90,59,0.4); font-family: system-ui, sans-serif; }
+  .pipe-input {
+    background: var(--sage-dark); color: white; border-color: var(--sage-dark);
+  }
+  .pipe-input strong { color: white; }
+  .pipe-input small { color: rgba(255,255,255,0.85); }
+  .pipe-input .cite { color: rgba(255,255,255,0.75); }
+  .pipe-filter { background: white; border-left: 3px solid var(--sage); text-align: left; padding-left: 16px; }
+  .pipe-filter strong { color: var(--sage-dark); }
+  .pipe-filter .n {
+    float: right; font-family: "Iowan Old Style", Palatino, serif;
+    font-size: 16px; color: var(--terracotta); font-weight: 600;
+  }
+  .pipe-output {
+    background: var(--terracotta); color: white; border-color: var(--terracotta);
+  }
+  .pipe-output strong { color: white; }
+  .pipe-output small { color: rgba(255,255,255,0.9); }
+  .pipe-arrow {
+    text-align: center; color: var(--muted); font-size: 18px;
+    padding: 4px 0; line-height: 1;
+  }
+  .pipe-parallel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  @media (max-width: 640px) {
+    .pipe-parallel { grid-template-columns: repeat(2, 1fr); }
+  }
+  h1, h2, h3 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+  }
+  h1 { font-size: 34px; margin: 0 0 12px; }
+  h2 { font-size: 26px; margin: 56px 0 16px; }
+  h3 { font-size: 20px; margin: 32px 0 10px; }
+  p { margin: 0 0 16px; }
+  .lede { font-size: 20px; line-height: 1.55; color: var(--ink); font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-weight: 400; }
+  .subtitle { font-size: 18px; color: var(--ink-2); margin: 0 0 20px; font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-style: italic; }
+  .meta { color: var(--muted); font-size: 14px; letter-spacing: 0.02em; }
+  .meta strong { color: var(--ink-2); font-weight: 500; }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  header {
+    padding: 72px 0 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  section { padding: 8px 0; }
+
+  .question-box {
+    background: var(--bg-alt);
+    border-left: 3px solid var(--sage);
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .answer-list {
+    padding-left: 0;
+    list-style: none;
+    margin: 20px 0;
+  }
+  .answer-list li {
+    padding: 10px 0 10px 28px;
+    position: relative;
+    border-bottom: 1px dashed var(--border);
+  }
+  .answer-list li:last-child { border-bottom: none; }
+  .answer-list li::before {
+    content: "→";
+    position: absolute;
+    left: 4px;
+    top: 10px;
+    color: var(--sage);
+    font-weight: 600;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 20px;
+    font-size: 15px;
+  }
+  table th, table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  table th {
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--bg-alt);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  table td em { color: var(--terracotta); font-style: normal; font-weight: 600; }
+  table td .good { color: var(--sage-dark); font-weight: 600; }
+  table td .warn { color: var(--terracotta); font-weight: 600; }
+  .num { font-variant-numeric: tabular-nums; }
+  .table-wrap { overflow-x: auto; margin: 16px -12px 24px; }
+  .table-wrap table { min-width: 640px; }
+  .table-wrap th, .table-wrap td { padding-left: 12px; padding-right: 12px; }
+
+  figure {
+    margin: 24px 0 32px;
+    padding: 0;
+  }
+  figure img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: white;
+  }
+  figcaption {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-top: 10px;
+    line-height: 1.5;
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font-style: italic;
+  }
+  figcaption strong {
+    font-style: normal;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .funnel {
+    background: var(--bg-alt);
+    border-radius: 6px;
+    padding: 24px 20px;
+    margin: 24px 0;
+  }
+  .funnel-stage {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .funnel-stage:last-child { border-bottom: none; }
+  .funnel-n {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--sage-dark);
+    min-width: 68px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .funnel-n .arrow { color: var(--muted); font-size: 14px; margin-right: 6px; vertical-align: 2px;}
+  .funnel-label { font-size: 15px; color: var(--ink); }
+  .funnel-label small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .funnel-final .funnel-n { color: var(--terracotta); font-size: 34px; font-weight: 600; }
+
+  .callout {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin: 20px 0;
+  }
+  .callout h3 { margin-top: 0; font-size: 17px; color: var(--sage-dark); }
+  .callout p:last-child { margin-bottom: 0; }
+
+  footer {
+    margin: 64px 0 48px;
+    padding: 32px 0 0;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  footer strong { color: var(--ink-2); }
+  footer .links { margin: 16px 0 8px; }
+  footer .links a { margin-right: 20px; }
+
+  code {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    background: var(--bg-alt);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    color: var(--ink);
+  }
+
+  .toc {
+    background: var(--bg-alt);
+    padding: 14px 20px;
+    border-radius: 6px;
+    margin: 24px 0 40px;
+    font-size: 14px;
+  }
+  .toc strong { display: block; margin-bottom: 6px; color: var(--ink); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .toc a { display: inline-block; margin-right: 14px; margin-bottom: 4px; border-bottom: none; color: var(--ink-2); }
+  .toc a:hover { color: var(--link); }
+
+  @media (max-width: 640px) {
+    header { padding: 40px 0 24px; }
+    h1 { font-size: 26px; }
+    h2 { font-size: 22px; margin-top: 40px; }
+    .lede { font-size: 17px; }
+    .funnel-n { font-size: 24px; min-width: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<aside class="sidebar" aria-label="Section navigation">
+  <div class="brand">
+    Wei (Rita) Yuan
+    <small>CS microbiome intervention analysis</small>
+  </div>
+  <div class="nav-eyebrow">Contents</div>
+  <a class="nav-link" href="#question">The question</a>
+  <a class="nav-link" href="#approach">Approach &amp; methods</a>
+  <a class="nav-link" href="#pipeline">Analysis pipeline</a>
+  <a class="nav-link" href="#survives">What survives</a>
+  <a class="nav-link" href="#alignment">Alignment check</a>
+  <a class="nav-link" href="#caveats">Cohort caveats</a>
+  <a class="nav-link" href="#pathway-view">Pathway view</a>
+  <a class="nav-link" href="#limits">What this cannot answer</a>
+  <a class="nav-link" href="#future">Future work</a>
+  <a class="nav-link" href="#acknowledgments">Acknowledgments</a>
+  <a class="nav-link" href="#ai-assistance">AI assistance</a>
+  <div class="nav-eyebrow" style="margin-top:16px;">Reference</div>
+  <a class="nav-link" href="#glossary">Glossary</a>
+  <a class="nav-link" href="#references">References</a>
+</aside>
+
+<main>
+
+<header>
+  <span class="eyebrow">Computational Metagenomics · Project Report</span>
+  <h1>Robustness, persistence and intervention relevance of caesarean-birth microbiome signals</h1>
+  <p class="subtitle">A stratified re-analysis of the Baby Biome Study (Shao et al., <em>Nature</em> 2019) — a longitudinal shotgun-metagenomic study of 596 UK newborns and their mothers</p>
+  <p class="meta"><strong>Wei (Rita) Yuan</strong> · 1,470 shotgun metagenomes · 579 infants · longitudinal from day 4 to day 428</p>
+
+  <div class="toc mobile-only">
+    <strong>On this page</strong>
+    <a href="#question">The question</a>
+    <a href="#approach">Approach</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#survives">What survives</a>
+    <a href="#alignment">Alignment check</a>
+    <a href="#caveats">Cohort caveats</a>
+    <a href="#limits">Limits</a>
+    <a href="#future">Future work</a>
+    <a href="#glossary">Glossary</a>
+    <a href="#references">References</a>
+  </div>
+</header>
+
+<section id="question">
+  <h2>The question</h2>
+  <p class="lede">
+    Infants born by caesarean section (<strong>CS</strong>) are the target of
+    a growing intervention landscape: mainstream <em>Bifidobacterium</em>
+    probiotics (B.&nbsp;infantis EVC001, B.&nbsp;breve M-16V), vaginal seeding
+    research, breastfeeding promotion, maternal faecal microbiota
+    transplantation (FMT; Korpela 2020, <em>Cell</em>), synbiotic infant
+    formulas (2025, <em>EJCN</em>), and next-generation <em>Bacteroides</em>
+    probiotics (B.&nbsp;uniformis CECT&nbsp;7771, B.&nbsp;fragilis SNBF-1).
+  </p>
+  <p>
+    Each of these is built on published CS-versus-vaginal microbiome
+    differences. Those published differences come from different cohorts,
+    different differential-abundance (<strong>DA</strong>) methods, different
+    time windows, and inconsistent antibiotic stratification. Which of them
+    are robust enough to design an intervention around is the question that
+    concerns trial design and eventual clinical uptake.
+  </p>
+
+  <div class="question-box">
+    Which widely-reported CS-versus-vaginal microbiome differences survive
+    <strong>(a)</strong> method robustness across four independent DA approaches,
+    <strong>(b)</strong> longitudinal persistence to three months, and
+    <strong>(c)</strong> deconfounding from peripartum antibiotic exposure —
+    and does the residual set align with what current interventions actually target?
+  </div>
+</section>
+
+<!-- Glossary moved to end (back matter, before References) -->
+
+<section id="approach">
+  <h2>Approach — why these four filters, and why these four methods</h2>
+
+  <h3>Why require agreement across four DA methods</h3>
+  <p>
+    Differential-abundance (DA) methods for microbiome data reach systematically
+    different conclusions on the same input.
+    <a href="https://doi.org/10.1038/s41467-022-28034-z" target="_blank" rel="noopener">Nearing et al. (<em>Nat Commun</em> 2022)</a>
+    benchmarked 14 DA methods across 38 datasets and found method choice was
+    frequently the largest single source of disagreement in reported findings.
+    Each method encodes specific assumptions — how to handle zeros, whether
+    to model compositionality, whether to correct per-taxon sequencing bias,
+    whether to include covariates. A finding that survives multiple
+    mechanistically distinct methods is not an artefact of any one set of
+    assumptions.
+  </p>
+  <p>
+    The four methods below were chosen because their assumptions do not
+    overlap. Each row cites the methodology paper; the underlying model in
+    each is different enough that agreement across all four constitutes
+    independent statistical support.
+  </p>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>Core model</th>
+        <th>What it catches / handles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <strong>CLR + Wilcoxon</strong><br>
+          <small><a href="https://doi.org/10.3389/fmicb.2017.02224" target="_blank" rel="noopener">Gloor et&nbsp;al. 2017,<br><em>Front Microbiol</em></a></small>
+        </td>
+        <td>Centered log-ratio transform (Aitchison compositional data framework), followed by rank-based two-sample test</td>
+        <td>Distribution-free baseline that treats compositionality directly; robust to non-normal count distributions but has no per-taxon bias correction</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>ALDEx2</strong><br>
+          <small><a href="https://doi.org/10.1186/2049-2618-2-15" target="_blank" rel="noopener">Fernandes et&nbsp;al. 2014,<br><em>Microbiome</em></a></small>
+        </td>
+        <td>Monte Carlo sampling from a Dirichlet posterior on each sample's composition, then <em>t</em>/Wilcoxon on the CLR-transformed instances</td>
+        <td>Propagates uncertainty from sequencing depth and zero-imputation into the significance test; important when many taxa have low or zero counts</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>ANCOM-BC2</strong><br>
+          <small><a href="https://doi.org/10.1038/s41467-020-17041-7" target="_blank" rel="noopener">Lin &amp; Peddada 2020,<br><em>Nat Commun</em></a>
+          · <a href="https://doi.org/10.1038/s41592-023-02092-7" target="_blank" rel="noopener">Lin &amp; Peddada 2024</a></small>
+        </td>
+        <td>Log-linear regression on log-transformed abundances, with per-taxon sampling-fraction bias correction (BC) and structural-zero handling</td>
+        <td>Corrects for the fact that different taxa have systematically different sequencing efficiency — a bias CLR-based methods leave in</td>
+      </tr>
+      <tr>
+        <td>
+          <strong>MaAsLin2</strong><br>
+          <small><a href="https://doi.org/10.1371/journal.pcbi.1009442" target="_blank" rel="noopener">Mallick et&nbsp;al. 2021,<br><em>PLOS Comp Biol</em></a></small>
+        </td>
+        <td>Generalized linear/mixed model with configurable transforms (arcsine-sqrt, log) and multiple covariates</td>
+        <td>Only method here that natively adjusts for covariates (birth mode + antibiotics + gender in the adjusted run); tests both marginal and adjusted effects</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>
+    Metagenomic input was processed with
+    <a href="https://doi.org/10.7554/eLife.65088" target="_blank" rel="noopener">MetaPhlAn3 / HUMAnN3</a>
+    (Beghini et&nbsp;al. 2021, <em>eLife</em>) and accessed via
+    <a href="https://doi.org/10.1038/nmeth.4468" target="_blank" rel="noopener">curatedMetagenomicData</a>
+    (Pasolli et&nbsp;al. 2017, <em>Nat Methods</em>). Requiring ≥3-of-4 agreement
+    filters 33 single-method species down to 27 method-robust species.
+  </p>
+
+  <h3>Why a longitudinal persistence filter</h3>
+  <p>
+    At day 0–7, many differences reflect the initial inoculum — vaginal
+    microbes versus skin and hospital microbes — rather than a stable
+    ecosystem. Interventions target long-term microbial composition, so
+    interventions for CS-born infants have to address deficits that
+    persist beyond the neonatal window. Filtering to differences that
+    persist at three months (d91+) drops 19 species whose gaps naturally
+    close and retains the eight where CS effects remain quantitatively
+    meaningful.
+  </p>
+
+  <h3>Why deconvolve antibiotic exposure</h3>
+  <p>
+    Intrapartum antibiotic prophylaxis has its own effects on infant gut
+    colonisation (Mazzola 2016, Stearns 2017, Aloisio 2021), overlapping
+    the taxa affected by CS. Here the exposure runs against the usual
+    direction — vaginal infants received antibiotics at 27%, CS at 12%,
+    driven by intrapartum GBS prophylaxis. A 2×2 stratification (CS ×
+    antibiotics) at d0–7 assigns each species to CS-dominant,
+    antibiotic-dominant, or both-contribute. Only CS-dominant signals
+    belong in a CS-specific intervention argument.
+  </p>
+
+  <h3>Why a direction filter</h3>
+  <p>
+    For probiotic-style interventions, the target list is species we want to
+    <em>restore</em> — vaginal-enriched taxa that CS infants lack. CS-enriched
+    opportunists are a different intervention question (displacement or
+    prevention, not restoration) and are handled separately. The final filter
+    keeps only vaginal-enriched, restore-target candidates.
+  </p>
+</section>
+
+<section id="pipeline">
+  <h2>Analysis pipeline</h2>
+  <p>
+    The full flow from raw metagenomic profiles to the four-species,
+    four-function target set. Numbers at right show how the species-level
+    candidate list contracts at each filter stage.
+  </p>
+
+  <div class="pipeline" aria-label="Analysis pipeline diagram">
+
+    <div class="pipe-stage-label">Input</div>
+    <div class="pipe-box pipe-input">
+      <strong>Baby Biome Study cohort</strong>
+      <small>1,470 shotgun metagenomes · 579 infants · longitudinal d4–d428</small>
+      <span class="cite">
+        <a href="https://doi.org/10.1038/s41586-019-1560-1" target="_blank" rel="noopener">Shao 2019 (Nature)</a>
+        · via
+        <a href="https://doi.org/10.1038/nmeth.4468" target="_blank" rel="noopener">curatedMetagenomicData</a>
+      </span>
+    </div>
+
+    <div class="pipe-arrow">↓</div>
+
+    <div class="pipe-stage-label">Profiling (parallel)</div>
+    <div class="pipe-parallel" style="grid-template-columns: 1fr 1fr;">
+      <div class="pipe-box">
+        <strong>Species profile</strong>
+        <small>MetaPhlAn3</small>
+        <span class="cite"><a href="https://doi.org/10.7554/eLife.65088" target="_blank" rel="noopener">Beghini 2021 · eLife</a></span>
+      </div>
+      <div class="pipe-box">
+        <strong>Pathway profile</strong>
+        <small>HUMAnN3 · MetaCyc</small>
+        <span class="cite"><a href="https://doi.org/10.7554/eLife.65088" target="_blank" rel="noopener">Beghini 2021 · eLife</a></span>
+      </div>
+    </div>
+
+    <div class="pipe-arrow">↓</div>
+
+    <div class="pipe-stage-label">Differential abundance (parallel)</div>
+    <div class="pipe-parallel">
+      <div class="pipe-box">
+        <strong>CLR + Wilcoxon</strong>
+        <small>Compositional baseline</small>
+        <span class="cite"><a href="https://doi.org/10.3389/fmicb.2017.02224" target="_blank" rel="noopener">Gloor 2017</a></span>
+      </div>
+      <div class="pipe-box">
+        <strong>ALDEx2</strong>
+        <small>Dirichlet-MC</small>
+        <span class="cite"><a href="https://doi.org/10.1186/2049-2618-2-15" target="_blank" rel="noopener">Fernandes 2014</a></span>
+      </div>
+      <div class="pipe-box">
+        <strong>ANCOM-BC2</strong>
+        <small>Bias-corrected log-linear</small>
+        <span class="cite"><a href="https://doi.org/10.1038/s41592-023-02092-7" target="_blank" rel="noopener">Lin &amp; Peddada 2024</a></span>
+      </div>
+      <div class="pipe-box">
+        <strong>MaAsLin2</strong>
+        <small>GLM with covariates</small>
+        <span class="cite"><a href="https://doi.org/10.1371/journal.pcbi.1009442" target="_blank" rel="noopener">Mallick 2021</a></span>
+      </div>
+    </div>
+
+    <div class="pipe-converge"><span>↓</span><span>↓</span><span>↓</span><span>↓</span></div>
+
+    <div class="pipe-stage-label">Filters (sequential)</div>
+
+    <div class="pipe-box pipe-filter">
+      <span class="n">33 → 27</span>
+      <strong>Filter 1 · Consensus across the four DA methods</strong>
+      <small>Significant (FDR &lt; 0.05) in ≥3 of 4 methods</small>
+    </div>
+
+    <div class="pipe-arrow">↓</div>
+
+    <div class="pipe-box pipe-filter">
+      <span class="n">27 → 8</span>
+      <strong>Filter 2 · Longitudinal persistence</strong>
+      <small>CS-vaginal gap persists or widens at d91+</small>
+    </div>
+
+    <div class="pipe-arrow">↓</div>
+
+    <div class="pipe-box pipe-filter">
+      <span class="n">8 → 6</span>
+      <strong>Filter 3 · Antibiotic vs CS deconvolution</strong>
+      <small>2×2 stratification (CS × antibiotics) at d0–7 · keeps CS-dominant and both-contribute species</small>
+    </div>
+
+    <div class="pipe-arrow">↓</div>
+
+    <div class="pipe-box pipe-filter">
+      <span class="n">6 → 5</span>
+      <strong>Filter 4 · Direction</strong>
+      <small>Vaginal-enriched only · CS-enriched opportunists are a separate intervention question</small>
+    </div>
+
+    <div class="pipe-arrow">↓</div>
+
+    <div class="pipe-stage-label">Output</div>
+    <div class="pipe-box pipe-output">
+      <strong>5 species (4 Bacteroidota + <em>C.&nbsp;aerofaciens</em>) · 4 congruent Bacteroidota functional pathways</strong>
+      <small>GABA shunt · β-mannan degradation · glycogen degradation · urea cycle</small>
+    </div>
+
+  </div>
+
+  <p>
+    The chain reduces 33 single-method species to 5. Applied at the pathway
+    level, the same workflow reduces 223 method-robust MetaCyc pathways to 7
+    with substantial persistent magnitude.
+  </p>
+</section>
+
+<section id="survives">
+  <h2>What survives — a Bacteroidota-centred residual signal</h2>
+  <p>
+    Five species survive every filter: four <em>Bacteroidota</em>
+    (<em>B. uniformis</em>, <em>P. vulgatus</em>, <em>P. dorei</em>,
+    <em>P. distasonis</em>) and one <em>Actinomycetota</em>
+    (<em>C. aerofaciens</em>). Their persistent deficits align with four
+    persistent pathway-level deficits — GABA shunt, β-mannan degradation,
+    glycogen degradation and urea-cycle-related capacity. Each pathway is a
+    documented <em>Bacteroidota</em> activity, so <strong>the dominant
+    residual signal at three months is Bacteroidota-centred</strong> — a
+    specific gap with a specific mechanism, rather than a diffuse
+    "dysbiosis". Replication in other cohorts and linkage to clinical
+    outcomes are the next steps (see <a href="#future">Future work</a>).
+  </p>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Persistent species (CLR gap at d91+)</th>
+        <th>Persistent function (CLR at d91+)</th>
+        <th>Mechanism citation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><em>Bacteroides uniformis</em> (−4.16)</td>
+        <td>GABA shunt (−0.52)</td>
+        <td>Bacteroides is the most prevalent gadB-bearing genus; <em>B. uniformis</em> is a documented GABA producer — gut-brain axis (Strandwitz 2019, <em>Nat Microbiol</em>; Belelli et al. 2025, <em>Brain</em>)</td>
+      </tr>
+      <tr>
+        <td><em>P. vulgatus</em>, <em>P. dorei</em>, <em>P. distasonis</em> (−2.9 to −3.8)</td>
+        <td>β-mannan degradation (−0.55)</td>
+        <td>Bacteroidota type-9 secretion β-mannan utilization is a hallmark of the Bacteroidaceae-rich infant cluster (Hettle 2022, bioRxiv)</td>
+      </tr>
+      <tr>
+        <td>Bacteroidota (four species)</td>
+        <td>Glycogen degradation II (−0.49)</td>
+        <td>Bacteroides glycogen foraging (standard biology)</td>
+      </tr>
+      <tr>
+        <td>Bacteroidota (four species)</td>
+        <td>Urea cycle (−0.88, widening)</td>
+        <td>Bifidobacterium and Bacteroides recycle infant-gut nitrogen from milk urea (You et al. 2023, <em>Gut Microbes</em>)</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <figure>
+    <img src="figures/longitudinal_trajectories.png" alt="Longitudinal CLR-gap trajectories for 27 method-robust species across d0-7, d8-30, and d91+ age windows">
+    <figcaption><strong>Fig. 1</strong> — Longitudinal trajectories of 27 method-robust species. Most opportunist enrichments (red) and Bifidobacterium deficits (blue near zero at right) attenuate or close by three months. Five lines (four Bacteroidota + <em>C. aerofaciens</em>) remain below zero at right and mark the persistent deficit.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="figures/Figure1_intervention_composite.png" alt="Six-panel composite: PCoA, DA-RF triangulation, longitudinal recovery, antibiotic deconvolution, elective vs emergency CS, and the intervention target funnel">
+    <figcaption><strong>Fig. 2</strong> — Six-panel summary, one panel per clinical question the analysis addresses. <strong>A.</strong> Is there any signal? <strong>B.</strong> Which species are real? <strong>C.</strong> Does the d0-7 gap close by three months? <strong>D.</strong> Is it CS or peripartum antibiotics? <strong>E.</strong> Elective vs emergency CS — same disruption? <strong>F.</strong> The stratification funnel.</figcaption>
+  </figure>
+</section>
+
+<section id="alignment">
+  <h2>Does current intervention design match the residual gap?</h2>
+  <p>
+    With the residual set narrowed to five species (four Bacteroidota and one Actinomycetota) and four
+    matching functions, each active class of intervention can be checked
+    directly: does it deliver Bacteroidota, and does it act on the species
+    that persist?
+  </p>
+
+  <div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Intervention class</th>
+        <th>Targets Bacteroidota?</th>
+        <th>Matches what survives?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Mainstream consumer probiotics<br><small>B. longum, B. breve, B. infantis EVC001</small></td>
+        <td>No</td>
+        <td>Partial — the target species' CS deficits largely close by d91+; the case for these products rests on the acute 0–2 month window</td>
+      </tr>
+      <tr>
+        <td>Vaginal seeding research</td>
+        <td>Partially (mixed inoculum)</td>
+        <td>Partial — delivers Bacteroides among other taxa; establishment rate depends on inoculum dose and infant conditions</td>
+      </tr>
+      <tr>
+        <td>Maternal FMT (Korpela 2020, <em>Cell</em>)</td>
+        <td>Yes</td>
+        <td><span class="good">Aligned</span> — reports restoration of the persistent Bacteroides deficit</td>
+      </tr>
+      <tr>
+        <td>Synbiotic infant formula (2025, <em>EJCN</em>)</td>
+        <td>Yes (post-weaning)</td>
+        <td><span class="good">Aligned</span> — Parabacteroides recovery at 17 weeks, Bacteroides at 12 months in that trial</td>
+      </tr>
+      <tr>
+        <td>Next-generation single-strain probiotics<br><small>B. uniformis CECT 7771, B. fragilis SNBF-1</small></td>
+        <td>Yes</td>
+        <td><span class="good">Aligned in design</span> — target the taxa that persist in this analysis; clinical outcomes still under investigation</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <h3>Reading the alignment</h3>
+    <p>
+      Interventions targeting Bacteroidota — maternal FMT, synbiotic infant
+      formulas reporting Bacteroides recovery, next-generation Bacteroides
+      single-strain probiotics — map onto the persistent deficit this analysis
+      identifies. Mainstream Bifidobacterium probiotics target a real deficit
+      too, but one that largely resolves within the first three months. Their
+      case rests on the acute neonatal window (0–2 months): early colonisation,
+      SCFA priming, opportunist competition. The long-term-restoration
+      rationale that has often been used to justify Bifidobacterium probiotic
+      supplementation in CS-born infants finds less support here.
+    </p>
+    <p>
+      Which alignment shows in other cohorts, and which target actually
+      changes clinical outcomes, are questions for randomised trials.
+    </p>
+  </div>
+</section>
+
+<section id="caveats">
+  <h2>Cohort caveats</h2>
+  <p style="color: var(--ink-2);">
+    Four properties of this dataset shape how the numbers above should be read.
+  </p>
+  <ul class="answer-list">
+    <li>
+      <strong>Intrapartum antibiotic exposure is inverted.</strong>
+      Vaginal-born infants received antibiotics at 27%; CS-born at 12%. The
+      driver is intrapartum GBS prophylaxis, given during vaginal labour.
+      Any CS-vs-vaginal comparison that does not stratify picks up antibiotic
+      effect running in the <em>opposite</em> direction to the default
+      assumption in most published cohorts.
+    </li>
+    <li>
+      <strong><em>E. coli</em> is vaginal-enriched at d0–7 here.</strong>
+      Enterobacteriaceae-associated functional pathways (enterobactin,
+      aerobactin, LPS biosynthesis) inherit that direction. Most cohorts
+      report the opposite — this is a cohort-specific property of BBS, not
+      a sign convention.
+    </li>
+    <li>
+      <strong><code>feeding_practice</code> is 0% non-NA.</strong>
+      Feeding × birth-mode interactions cannot be tested in this dataset.
+    </li>
+    <li>
+      <strong>Sampling gap between d31 and d90.</strong>
+      The recovery transition is not directly observed. Data thin past d91+
+      preclude claims about 6–12 month trajectories.
+    </li>
+  </ul>
+
+  <figure>
+    <img src="figures/verify_Bifidobacterium_longum_stratified.png" alt="B. longum CLR trajectory stratified by birth mode and antibiotic exposure across three age windows">
+    <figcaption><strong>Fig. 3</strong> — <em>B. longum</em> CLR trajectory stratified by birth mode × antibiotic exposure. The antibiotic-naive cells (large points, ~250 infants) meet at d91+: the CS-vaginal gap closes. The vaginal-with-antibiotics cell (small blue points) sits noticeably below the naive vaginal cell, which is the mechanism through which unstratified comparisons attribute antibiotic effect to CS. Filter 3 rendered directly.</figcaption>
+  </figure>
+</section>
+
+<section id="pathway-view">
+  <h2>Pathway-level view — do the persistent species deficits correspond to persistent functional deficits?</h2>
+  <p>
+    The species-level result leaves an obvious follow-up: do the persistent
+    Bacteroidota species deficits show up as persistent metabolic capacity
+    deficits, or do other genera pick up the same functions? The same
+    four-filter workflow applied to 386 MetaCyc pathway abundances
+    (HUMAnN3) answers directly.
+  </p>
+  <figure>
+    <img src="figures/per_pathway_trajectory.png" alt="Per-pathway CLR-gap trajectories showing 84% of method-robust pathways attenuate or close by d91+">
+    <figcaption><strong>Fig. 4</strong> — Per-pathway trajectories for the 32 method-robust pathways with |d0-7 CLR| ≥ 1, across three age windows. <strong>187 of 223 method-robust pathways (84%) attenuate or close by three months</strong>, including the highest-magnitude d0-7 pathways — Bifidobacterium shunt (−1.68 → +0.03) and starch biosynthesis (−1.78 → +0.03). Seven pathways retain substantial magnitude at d91+; four are Bacteroidota functions: β-mannan degradation, glycogen degradation, GABA shunt, urea cycle. The same four functions the persistent species deficits encode.</figcaption>
+  </figure>
+</section>
+
+<section id="limits">
+  <h2>What this project cannot answer</h2>
+  <ul class="answer-list">
+    <li>Trajectories past d91+. Sample density falls off sharply after three months.</li>
+    <li>Whether the persistent Bacteroidota gap translates to NEC, allergy, growth, or neurodevelopmental outcomes. BBS records no clinical endpoints; outcome-linked cohorts and intervention trials are required.</li>
+    <li>Whether the pattern replicates across cohorts with different feeding practices, IAP rates, and geographies.</li>
+    <li>Mother-infant strain-level transmission. Metadata are present (<code>family_role</code>) but strain tracking was out of scope for this pass.</li>
+    <li>Causation. The intervention-alignment claims are grounded in evidence but remain hypotheses until intervention trials test them.</li>
+  </ul>
+</section>
+
+<section id="future">
+  <h2>Future work</h2>
+  <p>
+    Six extensions, in order of tractability with public data.
+  </p>
+  <ul class="answer-list">
+    <li>
+      <strong>Cross-cohort replication.</strong>
+      Apply the four-filter workflow unchanged to TEDDY, DIABIMMUNE, INSPIRE,
+      and the 2025 Chinese synbiotic-formula trial cohort. Test whether
+      Bacteroidota-centric convergence is BBS-specific or generalisable.
+    </li>
+    <li>
+      <strong>Link the residual set to clinical outcomes.</strong>
+      BBS carries no NEC, allergy, growth, or neurodevelopmental endpoints.
+      CHILD, KOALA, MoBa, and TEDDY do. Ask directly whether infants with
+      lower <em>B. uniformis</em> at three months are the ones developing
+      atopic outcomes at two years.
+    </li>
+    <li>
+      <strong>Mother-infant strain-level transmission.</strong>
+      BBS metadata includes <code>family_role</code>; mother samples are
+      matched to infants. Strain tracking (StrainPhlAn, inStrain) can separate
+      failed vertical transmission from failed establishment of transmitted
+      strains — the first distinguishes whether maternal FMT (Korpela 2020)
+      or exogenous strains is the more mechanistic intervention.
+    </li>
+    <li>
+      <strong>Direct test of the alignment hypothesis.</strong>
+      Re-analyse recent probiotic and synbiotic RCTs with this workflow:
+      does the intervention shift Bacteroidota into the vaginal-birth range,
+      or does it lift Bifidobacterium without moving the persistent gap? A
+      direct empirical check on the argument made here.
+    </li>
+    <li>
+      <strong>Systematise the IAP asymmetry.</strong>
+      The 27% vaginal / 12% CS split inverts the default assumption. A survey
+      across UK, European, and US infant cohorts would show whether this
+      reflects a BBS-specific screening rate or a broader re-evaluation of
+      CS–IAP confounding.
+    </li>
+    <li>
+      <strong>Package the funnel as an R workflow.</strong>
+      Method concordance → longitudinal persistence → confounder deconvolution
+      → direction filter, wrapped with a documented API. Applies to any
+      binary-exposure microbiome question, not just birth mode.
+    </li>
+  </ul>
+</section>
+
+<section id="glossary">
+  <h2>Glossary</h2>
+  <p style="color: var(--ink-2); font-size: 15px;">
+    Terms and abbreviations used throughout, grouped by domain.
+  </p>
+
+  <h3>Clinical &amp; obstetric</h3>
+  <div class="table-wrap">
+  <table>
+    <tbody>
+      <tr><td style="width:22%;"><strong>CS</strong> (or caesarean-born)</td>
+          <td>Infant delivered by caesarean section — bypasses vaginal-canal microbe exposure and typically involves peripartum surgical antibiotic prophylaxis for the mother.</td></tr>
+      <tr><td><strong>Vaginal</strong> (or vaginally born)</td>
+          <td>Infant delivered vaginally — is exposed to maternal vaginal, intestinal, and skin microbes during birth.</td></tr>
+      <tr><td><strong>IAP</strong></td>
+          <td>Intrapartum antibiotic prophylaxis — antibiotics (usually penicillin or ampicillin) given to the mother during labour, most commonly to prevent Group B streptococcal transmission to the newborn.</td></tr>
+      <tr><td><strong>GBS</strong></td>
+          <td>Group B <em>Streptococcus</em> — bacterial cause of early-onset neonatal sepsis; universal maternal screening and IAP is standard obstetric practice in many countries.</td></tr>
+      <tr><td><strong>Elective CS</strong> / <strong>emergency CS</strong></td>
+          <td>Scheduled CS (before labour onset) versus unscheduled CS (during or after labour has started). Differ in maternal stress, antibiotic timing, and infant microbe exposure.</td></tr>
+      <tr><td><strong>NEC</strong></td>
+          <td>Necrotising enterocolitis — severe inflammatory intestinal disease of preterm infants; part of the clinical motivation for caring about CS-associated microbiome disruption.</td></tr>
+      <tr><td><strong>FMT</strong></td>
+          <td>Faecal microbiota transplantation — transfer of a screened faecal microbial community to a recipient; in this context, maternal-to-infant to restore the missing vaginal-canal inoculum.</td></tr>
+      <tr><td><strong>d0–7 · d8–30 · d91+</strong></td>
+          <td>Infant age windows used in the longitudinal analysis: days 0–7 (neonatal), days 8–30 (early infant), day 91 onwards (three months and beyond).</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Microbiome measurement</h3>
+  <div class="table-wrap">
+  <table>
+    <tbody>
+      <tr><td style="width:22%;"><strong>Shotgun metagenomics</strong></td>
+          <td>Sequencing all DNA fragments in a stool sample — captures both taxonomic composition and functional gene content, unlike 16S rRNA sequencing which reads only one marker gene.</td></tr>
+      <tr><td><strong>MetaPhlAn3</strong></td>
+          <td>Software that maps shotgun reads against clade-specific marker genes to estimate the relative abundance of microbial species. Reference: <a href="https://doi.org/10.7554/eLife.65088" target="_blank" rel="noopener">Beghini 2021, <em>eLife</em></a>.</td></tr>
+      <tr><td><strong>HUMAnN3</strong></td>
+          <td>Companion tool to MetaPhlAn3 that quantifies the abundance of microbial metabolic <em>pathways</em> per sample using the MetaCyc reference database.</td></tr>
+      <tr><td><strong>MetaCyc</strong></td>
+          <td>Curated database of experimentally elucidated metabolic pathways across all domains of life — the reference set that defines what "a pathway" means quantitatively in HUMAnN3 output.</td></tr>
+      <tr><td><strong>curatedMetagenomicData</strong></td>
+          <td>Bioconductor R package providing uniformly-processed MetaPhlAn3 / HUMAnN3 profiles for hundreds of published shotgun metagenomic studies, including the Baby Biome Study used here.</td></tr>
+      <tr><td><strong>Relative abundance</strong></td>
+          <td>Proportion of a sample's reads assigned to a given taxon or pathway — always sums to 1 within a sample (a "compositional" measurement).</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Statistics &amp; methods</h3>
+  <div class="table-wrap">
+  <table>
+    <tbody>
+      <tr><td style="width:22%;"><strong>DA</strong> (differential abundance)</td>
+          <td>Statistical test for whether the abundance of a specific taxon or pathway differs between two groups (here: CS versus vaginal infants).</td></tr>
+      <tr><td><strong>CLR</strong></td>
+          <td>Centered log-ratio transform — takes the log of each relative abundance divided by the geometric mean of the sample; the standard way to move compositional data into a space where ordinary statistical tests are valid.</td></tr>
+      <tr><td><strong>CLR gap</strong></td>
+          <td>Difference in mean CLR-transformed abundance between CS and vaginal groups. A gap of −2 CLR ≈ five-fold lower abundance in the CS group.</td></tr>
+      <tr><td><strong>FDR</strong></td>
+          <td>False discovery rate — the expected proportion of significant tests that are false positives (Benjamini-Hochberg correction is standard in microbiome DA).</td></tr>
+      <tr><td><strong>Concordance / method-robust</strong></td>
+          <td>A finding is "method-robust" (or "concordant") if it is significant under multiple statistical methods whose assumptions differ. Here defined as significant in ≥3 of 4 DA methods at FDR &lt; 0.05.</td></tr>
+      <tr><td><strong>Deconvolution / 2×2 stratification</strong></td>
+          <td>Splitting the sample by two categorical factors simultaneously (here: birth mode × antibiotic exposure) to separate their individual effects on abundance.</td></tr>
+      <tr><td><strong>PERMANOVA</strong></td>
+          <td>Permutational multivariate analysis of variance — tests whether two groups of samples differ in overall community composition.</td></tr>
+      <tr><td><strong>PCoA</strong></td>
+          <td>Principal coordinates analysis — a low-dimensional projection of pairwise sample dissimilarities (Bray-Curtis here); the standard "beta-diversity plot" in microbiome studies.</td></tr>
+      <tr><td><strong>RF</strong></td>
+          <td>Random forest — an ensemble machine-learning classifier whose per-feature importance ranking provides an independent, distribution-free measure of signal strength; used here to triangulate with the DA methods (agreement between RF and DA is treated as convergent evidence).</td></tr>
+      <tr><td><strong>GLM</strong></td>
+          <td>Generalised linear model — regression framework accommodating non-normal outcomes (used by MaAsLin2 with covariates).</td></tr>
+      <tr><td><strong>MC (Monte Carlo)</strong></td>
+          <td>Statistical simulation from a probability distribution (used by ALDEx2 to sample sequencing-depth uncertainty from a Dirichlet posterior).</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Nutritional &amp; functional</h3>
+  <div class="table-wrap">
+  <table>
+    <tbody>
+      <tr><td style="width:22%;"><strong>HMO</strong></td>
+          <td>Human milk oligosaccharide — a class of ~200 complex sugars in breast milk that human infants cannot digest but that specific gut bacteria (particularly <em>Bifidobacterium infantis</em>) can ferment.</td></tr>
+      <tr><td><strong>SCFA</strong></td>
+          <td>Short-chain fatty acid (acetate, propionate, butyrate) — end-products of bacterial fibre fermentation; critical for gut barrier integrity and immune signalling.</td></tr>
+      <tr><td><strong>Bifidobacterium shunt</strong></td>
+          <td>A characteristic metabolic pathway of the genus <em>Bifidobacterium</em> that ferments hexose sugars via fructose-6-phosphate phosphoketolase to acetate and lactate — the primary route for HMO utilisation in infant guts.</td></tr>
+      <tr><td><strong>GABA shunt</strong></td>
+          <td>Bacterial pathway that produces γ-aminobutyric acid (a neurotransmitter also active at bacterial-brain signalling) from glutamate. Bacteroides genera are the dominant gadB-bearing gut producers.</td></tr>
+      <tr><td><strong>β-mannan degradation</strong></td>
+          <td>Bacteroidota-signature carbohydrate utilisation pathway for plant and fungal mannan polysaccharides; requires the type-9 secretion system (T9SS) and is a marker of a mature Bacteroidota-rich infant gut.</td></tr>
+      <tr><td><strong>Urea cycle</strong></td>
+          <td>Nitrogen-recycling pathway. In the infant gut, urea from breast milk (~15% of milk nitrogen) is used by <em>Bifidobacterium infantis</em> and other commensals to build amino acids for the developing infant.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Interventions</h3>
+  <div class="table-wrap">
+  <table>
+    <tbody>
+      <tr><td style="width:22%;"><strong>Probiotic</strong></td>
+          <td>Live microbial strain administered to confer a claimed health benefit. Mainstream infant probiotics use <em>Bifidobacterium</em> and <em>Lactobacillus</em> species.</td></tr>
+      <tr><td><strong>Prebiotic</strong></td>
+          <td>Non-digestible dietary substrate that selectively promotes beneficial bacteria (HMOs are the archetypal infant prebiotic).</td></tr>
+      <tr><td><strong>Synbiotic</strong></td>
+          <td>Combined probiotic + prebiotic formulation, given together for synergistic effect.</td></tr>
+      <tr><td><strong>Next-generation probiotic</strong></td>
+          <td>Live-biotherapeutic candidates from strain-specific research isolates — e.g. <em>B.&nbsp;uniformis</em> CECT&nbsp;7771, <em>B.&nbsp;fragilis</em> SNBF-1 — targeting gut commensals absent from over-the-counter probiotic products.</td></tr>
+      <tr><td><strong>Vaginal seeding</strong></td>
+          <td>Investigational practice of swabbing a CS-born infant with maternal vaginal secretions post-birth to attempt to transfer vaginal microbes.</td></tr>
+      <tr><td><strong>RCT</strong></td>
+          <td>Randomised controlled trial — the standard evidence base for whether an intervention affects clinical outcomes.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="references">
+  <h2>References</h2>
+  <p style="font-size: 15px; color: var(--ink-2); margin-bottom: 20px;">
+    Numbered informally; full literature verification is documented in
+    the project's internal audit trail.
+  </p>
+
+  <div style="font-size: 15px; line-height: 1.7;">
+    <p style="margin-bottom: 14px;">
+      <strong>Source cohort</strong><br>
+      Shao Y, Forster SC, Tsaliki E, et al. Stunted microbiota and opportunistic pathogen colonization in caesarean-section birth. <em>Nature</em> 574, 117–121 (2019). <a href="https://doi.org/10.1038/s41586-019-1560-1" target="_blank" rel="noopener">doi:10.1038/s41586-019-1560-1</a>
+    </p>
+
+    <p style="margin-bottom: 14px;">
+      <strong>Data &amp; tooling</strong><br>
+      Beghini F, McIver LJ, Blanco-Míguez A, et al. Integrating taxonomic, functional, and strain-level profiling of diverse microbial communities with bioBakery 3 (MetaPhlAn3 / HUMAnN3). <em>eLife</em> 10, e65088 (2021). <a href="https://doi.org/10.7554/eLife.65088" target="_blank" rel="noopener">doi:10.7554/eLife.65088</a><br>
+      Pasolli E, Schiffer L, Manghi P, et al. Accessible, curated metagenomic data through ExperimentHub (curatedMetagenomicData). <em>Nat Methods</em> 14, 1023–1024 (2017). <a href="https://doi.org/10.1038/nmeth.4468" target="_blank" rel="noopener">doi:10.1038/nmeth.4468</a>
+    </p>
+
+    <p style="margin-bottom: 14px;">
+      <strong>Differential-abundance methods</strong><br>
+      Gloor GB, Macklaim JM, Pawlowsky-Glahn V, Egozcue JJ. Microbiome datasets are compositional: and this is not optional. <em>Front Microbiol</em> 8, 2224 (2017). <a href="https://doi.org/10.3389/fmicb.2017.02224" target="_blank" rel="noopener">doi:10.3389/fmicb.2017.02224</a><br>
+      Fernandes AD, Reid JN, Macklaim JM, McMurrough TA, Edgell DR, Gloor GB. Unifying the analysis of high-throughput sequencing datasets: characterizing RNA-seq, 16S rRNA gene sequencing and selective growth experiments by compositional data analysis (ALDEx2). <em>Microbiome</em> 2, 15 (2014). <a href="https://doi.org/10.1186/2049-2618-2-15" target="_blank" rel="noopener">doi:10.1186/2049-2618-2-15</a><br>
+      Lin H, Peddada SD. Analysis of compositions of microbiomes with bias correction (ANCOM-BC). <em>Nat Commun</em> 11, 3514 (2020). <a href="https://doi.org/10.1038/s41467-020-17041-7" target="_blank" rel="noopener">doi:10.1038/s41467-020-17041-7</a><br>
+      Lin H, Peddada SD. Multigroup analysis of compositions of microbiomes with covariate adjustments and repeated measures (ANCOM-BC2). <em>Nat Methods</em> 21, 83–91 (2024). <a href="https://doi.org/10.1038/s41592-023-02092-7" target="_blank" rel="noopener">doi:10.1038/s41592-023-02092-7</a><br>
+      Mallick H, Rahnavard A, McIver LJ, et al. Multivariable association discovery in population-scale meta-omics studies (MaAsLin2). <em>PLOS Comp Biol</em> 17, e1009442 (2021). <a href="https://doi.org/10.1371/journal.pcbi.1009442" target="_blank" rel="noopener">doi:10.1371/journal.pcbi.1009442</a><br>
+      Nearing JT, Douglas GM, Hayes MG, et al. Microbiome differential abundance methods produce different results across 38 datasets. <em>Nat Commun</em> 13, 342 (2022). <a href="https://doi.org/10.1038/s41467-022-28034-z" target="_blank" rel="noopener">doi:10.1038/s41467-022-28034-z</a>
+    </p>
+
+    <p style="margin-bottom: 14px;">
+      <strong>Longitudinal CS microbiome trajectories</strong><br>
+      Bokulich NA, Chung J, Battaglia T, et al. Antibiotics, birth mode, and diet shape microbiome maturation during early life. <em>Sci Transl Med</em> 8, 343ra82 (2016). <a href="https://doi.org/10.1126/scitranslmed.aad7121" target="_blank" rel="noopener">doi:10.1126/scitranslmed.aad7121</a><br>
+      Korpela K, Helve O, Kolho KL, et al. Maternal fecal microbiota transplantation in cesarean-born infants rapidly restores normal gut microbial development. <em>Cell</em> 183, 324–334.e5 (2020). <a href="https://doi.org/10.1016/j.cell.2020.08.047" target="_blank" rel="noopener">doi:10.1016/j.cell.2020.08.047</a><br>
+      Reyman M, van Houten MA, van Baarle D, et al. Impact of delivery mode-associated gut microbiota dynamics on health in the first year of life. <em>Nat Commun</em> 10, 4997 (2019). <a href="https://doi.org/10.1038/s41467-019-13014-7" target="_blank" rel="noopener">doi:10.1038/s41467-019-13014-7</a>
+    </p>
+
+    <p style="margin-bottom: 14px;">
+      <strong>Intrapartum antibiotic prophylaxis and Bifidobacterium</strong><br>
+      Mazzola G, Murphy K, Ross RP, et al. Early gut microbiota perturbations following intrapartum antibiotic prophylaxis to prevent Group B streptococcal disease. <em>PLoS One</em> 11, e0157527 (2016). <a href="https://doi.org/10.1371/journal.pone.0157527" target="_blank" rel="noopener">doi:10.1371/journal.pone.0157527</a><br>
+      Stearns JC, Simioni J, Gunn E, et al. Intrapartum antibiotics for GBS prophylaxis alter colonization patterns in the early infant gut microbiome of low risk infants. <em>Sci Rep</em> 7, 16527 (2017). <a href="https://doi.org/10.1038/s41598-017-16606-9" target="_blank" rel="noopener">doi:10.1038/s41598-017-16606-9</a>
+    </p>
+
+    <p style="margin-bottom: 14px;">
+      <strong>Species → function mechanism citations</strong><br>
+      Strandwitz P, Kim KH, Terekhova D, et al. GABA-modulating bacteria of the human gut microbiota. <em>Nat Microbiol</em> 4, 396–403 (2019). <a href="https://doi.org/10.1038/s41564-018-0307-3" target="_blank" rel="noopener">doi:10.1038/s41564-018-0307-3</a><br>
+      Belelli D, Lambert JJ, Wan M, Monteiro R, Nutt DJ, Swinny JD. From bugs to brain: unravelling the GABA signalling networks in the brain–gut–microbiome axis. <em>Brain</em> 148, 1479–1506 (2025). <a href="https://doi.org/10.1093/brain/awae413" target="_blank" rel="noopener">doi:10.1093/brain/awae413</a><br>
+      Hettle AG, Vickers C, Robb CS, et al. The Type 9 Secretion System enables sharing of fungal mannan by human gut Bacteroides. bioRxiv 2022.07.15.500217 (2022). <a href="https://doi.org/10.1101/2022.07.15.500217" target="_blank" rel="noopener">doi:10.1101/2022.07.15.500217</a><br>
+      You X, Rani A, Özcan E, Lyu Y, Sela DA. <em>Bifidobacterium longum</em> subsp. <em>infantis</em> utilizes human milk urea to recycle nitrogen within the infant gut microbiome. <em>Gut Microbes</em> 15, 2192546 (2023). <a href="https://doi.org/10.1080/19490976.2023.2192546" target="_blank" rel="noopener">doi:10.1080/19490976.2023.2192546</a>
+    </p>
+
+    <p style="margin-bottom: 14px;">
+      <strong>Next-generation Bacteroides-targeted interventions</strong><br>
+      Gauffin Cano P, Santacruz A, Moya Á, Sanz Y. <em>Bacteroides uniformis</em> CECT 7771 ameliorates metabolic and immunological dysfunction in mice with high-fat-diet induced obesity. <em>PLoS One</em> 7, e41079 (2012). <a href="https://doi.org/10.1371/journal.pone.0041079" target="_blank" rel="noopener">doi:10.1371/journal.pone.0041079</a><br>
+      Fernández-Murga ML, Sanz Y. Safety assessment of <em>Bacteroides uniformis</em> CECT 7771 isolated from stools of healthy breast-fed infants. <em>PLoS One</em> 11, e0145503 (2016). <a href="https://doi.org/10.1371/journal.pone.0145503" target="_blank" rel="noopener">doi:10.1371/journal.pone.0145503</a><br>
+      Chen Y, Jiao T, Wang R, et al. Restoration of gut microbiota with a specific synbiotic-containing infant formula in healthy Chinese infants born by cesarean section. <em>Eur J Clin Nutr</em> (2025). <a href="https://doi.org/10.1038/s41430-025-01571-8" target="_blank" rel="noopener">doi:10.1038/s41430-025-01571-8</a>
+    </p>
+  </div>
+</section>
+
+<section id="acknowledgments">
+  <h2>Acknowledgments</h2>
+  <p>
+    This project is a secondary analysis of publicly available shotgun
+    metagenomic profiles. The author gratefully acknowledges the mothers and
+    infants who consented to the Baby Biome Study, the Shao et al. team at
+    the Wellcome Sanger Institute and the Wellcome–MRC Institute of Metabolic
+    Science who conducted and released the cohort, the
+    <code>curatedMetagenomicData</code> maintainers (Pasolli et al.) for
+    providing uniformly-processed MetaPhlAn3 / HUMAnN3 profiles through
+    Bioconductor, and the methodology teams behind MetaPhlAn3 / HUMAnN3
+    (Segata group), ALDEx2 (Gloor group), ANCOM-BC2 (Peddada group) and
+    MaAsLin2 (Huttenhower group). No re-identifiable participant data are
+    included; all downstream results are group-level aggregates.
+  </p>
+</section>
+
+<section id="ai-assistance">
+  <h2>AI assistance</h2>
+  <p>
+    This project was author-directed and developed with AI assistance. Claude
+    (Anthropic) was used for code drafting, exploratory literature lookup and
+    technical writing. The research question, filter design, statistical
+    validation, error verification and scientific interpretation were performed
+    by the author. Numerical outputs were verified against source data files,
+    and literature claims were checked against primary references before
+    inclusion.
+  </p>
+</section>
+
+<footer>
+  <div><strong>Wei (Rita) Yuan</strong> · Computational metagenomics · 2026</div>
+  <div class="links">
+    <span style="color: var(--muted);">Code and result tables available on request while the reproducibility package is being finalised.</span>
+  </div>
+  <div>
+    Source cohort: Shao Y et al., <em>Stunted microbiota and opportunistic pathogen colonisation in caesarean-section birth</em>. Nature (2019). Accessed via <code>curatedMetagenomicData</code>.
+    Written and analyzed with R 4.6 (vegan, ALDEx2, ANCOM-BC2, MaAsLin2, randomForest, ggplot2).
+  </div>
+</footer>
+
+</main>
+</div>
+</body>
+</html>
