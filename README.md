@@ -13,15 +13,17 @@ caesarean-birth-associated infant gut microbiome signals remain after
 
 ## Rendered reports
 
-Two HTML report pages are included in this repository:
+Two HTML report pages are published via GitHub Pages and are also included
+as static files in this repository.
 
-| Page | Purpose | Location |
-|---|---|---|
-| **Portfolio** | Short case-study version aimed at hiring panels and general readers | [`portfolio/index.html`](portfolio/index.html) |
-| **Full scientific report** | Detailed methods, per-filter results, pathway view, glossary and references | [`web/index.html`](web/index.html) |
+| Page | Purpose | Live page | Source |
+|---|---|---|---|
+| **Portfolio** | Short case-study version for hiring panels and general readers | [View live](https://inlifesky.github.io/infant-gut-microbiome-birth-mode/portfolio/) | [`portfolio/index.html`](portfolio/index.html) |
+| **Full scientific report** | Detailed methods, per-filter results, pathway view, glossary and references | [View live](https://inlifesky.github.io/infant-gut-microbiome-birth-mode/web/) | [`web/index.html`](web/index.html) |
 
-Both are static self-contained pages and can be viewed by opening the HTML
-files directly or served locally (`python -m http.server` at the repo root).
+Both pages are static and self-contained. They can also be opened locally
+from the source files or served via `python -m http.server` at the repo
+root.
 
 ---
 
@@ -53,7 +55,7 @@ of Shao et al. 2019). No raw sequencing reads are stored in the repository.
 
 ### Requirements
 
-- R ≥ 4.6 with Bioconductor 3.21
+- R 4.6 with Bioconductor 3.21 (full package versions recorded in `results/sessionInfo.txt` after the first `run_all.R` execution)
 - CRAN packages: `vegan`, `randomForest`, `ggplot2`, `patchwork`, `dplyr`,
   `tidyr`, `ggrepel`
 - Bioconductor packages: `curatedMetagenomicData`, `SummarizedExperiment`,
