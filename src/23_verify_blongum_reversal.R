@@ -2,7 +2,7 @@
 # 23 — Verify: is the B. longum d91+ reversal a real natural recovery,
 #       or an artifact of differential antibiotic exposure between birth modes?
 #
-# Literature warning (Mazzola 2016, Stearns 2017, Aloisio 2021):
+# Literature warning (Mazzola 2016, Stearns 2017):
 # IAP exposure → sustained B. longum reduction at 1 year. In our cohort,
 # vaginal infants have HIGHER IAP exposure (27%) than CS infants (12%).
 # If vaginal-IAP infants have very low B. longum, that could pull the vaginal
