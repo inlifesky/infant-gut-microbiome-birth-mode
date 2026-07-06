@@ -80,7 +80,8 @@ for (i in seq_len(nrow(persist))) {
               persist$class[i], persist$gap_d0_7[i], persist$gap_d91p[i]))
 }
 
-cat("\nNotable: ALL 5 persisting/widening Bacteroidetes (Bacteroides uniformis,\n")
+cat("\nNotable: the 5 persisting/widening species are four Bacteroidota\n")
+cat("(Bacteroides uniformis,\n")
 cat("Phocaeicola vulgatus, Phocaeicola dorei, Parabacteroides distasonis,\n")
 cat("Collinsella aerofaciens) are vaginal-enriched and STAY depleted at 3 months.\n")
 cat("This is the real long-term CS deficit — and these genera are NOT in\n")
@@ -169,7 +170,9 @@ for (i in seq_len(nrow(actionable))) {
 
 cat("HONEST ASSESSMENT OF INTERVENTION LANDSCAPE\n")
 cat("───────────────────────────────────────────\n\n")
-cat("The actionable targets above are all Bacteroidetes — genera that\n")
+cat("The actionable targets above are 4 Bacteroidota + 1 Actinomycetota\n")
+cat("(Collinsella aerofaciens) — the Bacteroidota-centred residual is\n")
+cat("dominant. Bacteroidota genera are\n")
 cat("MAINSTREAM CONSUMER infant probiotics (Bifidobacterium + Lactobacillus\n")
 cat("blends like Culturelle, BioGaia) do NOT target. The species these\n")
 cat("commercial products contain (B. longum, B. breve) are TRANSIENT\n")

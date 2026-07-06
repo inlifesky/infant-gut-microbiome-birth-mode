@@ -11,7 +11,7 @@
 #   - per-pathway trajectory table (gap at d0-7, d8-30, d91+; trajectory class)
 #   - top persisting/widening pathways with their categories and direction
 #   - cross-reference: do persistent pathways belong to functions of the
-#     persistent Bacteroidetes species?
+#     persistent Bacteroidota species?
 # ─────────────────────────────────────────────────────────────────────────────
 suppressPackageStartupMessages({
   library(curatedMetagenomicData); library(SummarizedExperiment)

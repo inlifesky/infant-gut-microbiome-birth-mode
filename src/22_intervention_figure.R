@@ -70,7 +70,7 @@ pC <- ggplot(le, aes(window, gap, group = species, colour = dir)) +
   geom_point(alpha = 0.7, size = 1.5) +
   scale_colour_manual(values = c(`CS-enriched`="#D6604D", `Vaginal-enriched`="#2166AC"), name="") +
   labs(title = "C. Does the d0-7 gap close by 3 months?",
-       subtitle = "Most CS-enriched species attenuate; persistent deficits are Bacteroidetes",
+       subtitle = "Most CS-enriched species attenuate; persistent deficits are Bacteroidota-centred",
        x = "Infant age window", y = "CLR(CS) − CLR(vaginal)") +
   th + theme(legend.position = "none")
 
@@ -119,14 +119,14 @@ funnel <- data.frame(
                              "Persists / widens\nby d91+",
                              "CS-driven\n(not ABx)",
                              "Vaginal-enriched\n(restore target)")),
-  n = c(33, 27, 8, 6, 4))
+  n = c(33, 27, 8, 6, 5))
 pF <- ggplot(funnel, aes(n, stage, fill = stage)) +
   geom_col(show.legend = FALSE) +
   geom_text(aes(label = n), hjust = -0.25, size = 4, fontface = "bold") +
   scale_y_discrete(limits = rev) +
   scale_fill_manual(values = c("grey80","#FDB863","#E08214","#D6604D","#762A83")) +
   labs(title = "F. The actionable target list",
-       subtitle = "Successive stratifications: 33 → 4 species (all Bacteroidetes)",
+       subtitle = "Successive stratifications: 33 → 5 species (4 Bacteroidota + C. aerofaciens)",
        x = "Number of species", y = NULL) +
   expand_limits(x = max(funnel$n) * 1.15) + th
 
